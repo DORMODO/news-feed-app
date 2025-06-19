@@ -1,20 +1,8 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { NewsArticle } from "./NewsArticle";
+import { LoadingArticle } from "./LoadingArticle";
 
 export const NewsFeed = ({ articles, loading }) => {
-    if (loading) {
-    return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        height="50vh"
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-
   if (!articles || articles.length === 0) {
     return (
       <Typography
@@ -30,10 +18,12 @@ export const NewsFeed = ({ articles, loading }) => {
 
   return (
     <>
-      {articles.map((article) => (
-        <NewsArticle key={JSON.stringify(article)} {...article} />
-      ))}
-      
+      {loading &&
+        [...Array(5)].map((_, index) => <LoadingArticle key={index} />)}
+      {!loading &&
+        articles.map((article) => (
+          <NewsArticle key={JSON.stringify(article)} {...article} />
+        ))}
     </>
   );
 };

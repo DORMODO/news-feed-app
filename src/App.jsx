@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
-import { Button, Container, styled, Typography } from "@mui/material";
+import { Alert, Button, Container, styled, Typography } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import debounce from "lodash/debounce";
 
 import { NewsFeed, NewsHeader } from "./components";
 import { useLoadData } from "./hooks/useLoadData";
-
-const PAGE_SIZE = 4
 
 const Footer = styled("div")(({ theme }) => ({
   margin: theme.spacing(2, 0),
@@ -18,15 +16,25 @@ const Footer = styled("div")(({ theme }) => ({
 
 function App() {
   const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("general");
 
-  const loadArticles = async (newQuery, newPage) => {
+  const loadArticles = async (newQuery, newPage, category) => {
     setLoading(true);
-    const data = await useLoadData(newQuery, newPage);
-    setArticles(data);
-    setLoading(false);
+    setError("");
+    useLoadData(newQuery, newPage, category)
+      .then((data) => {
+        setArticles(data);
+      })
+      .catch((error) => {
+        setError(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const handleSearchChange = debounce((newQuery) => {
@@ -46,14 +54,29 @@ function App() {
     loadArticles(query, newPageNumber);
   };
 
+  const handleCategoryChange = (event) => {
+    setCategory(event.target.value);
+    setPage(1);
+    loadArticles("", 1, event.target.value);
+  };
+
   return (
     <Container>
-      <NewsHeader onSearchChange={handleSearchChange} />
-      <NewsFeed articles={articles} loading={loading} />
+      <NewsHeader
+        onSearchChange={handleSearchChange}
+        category={category}
+        onCategoryChange={handleCategoryChange}
+      />
+
+      {error.length === 0 ? (
+        <NewsFeed articles={articles} loading={loading} />
+      ) : (
+        <Alert severity="error">{error}</Alert>
+      )}
       {!loading && (
         <Footer>
           <Button
-            disabled={page === 1}
+            disabled={loading || page === 1}
             onClick={() => handlePageChange("prev")}
             variant="outlined"
             startIcon={<NavigateBeforeIcon />}
@@ -62,7 +85,7 @@ function App() {
           </Button>
           <Typography>Page {page}</Typography>
           <Button
-            disabled={articles.length < PAGE_SIZE}
+            disabled={articles.length <= 0}
             onClick={() => handlePageChange("next")}
             variant="outlined"
             endIcon={<NavigateNextIcon />}
@@ -76,4 +99,3 @@ function App() {
 }
 
 export default App;
-

@@ -1,15 +1,10 @@
-import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { styled } from "@mui/material/styles";
-import { at } from "lodash";
 
-const StyledCard = styled(Card)(({ theme }) => ({
-  margin: theme.spacing(2, 0),
-}));
+import { StyledCard } from "./StyledCard";
 
 export const NewsArticle = ({
   image,
@@ -17,10 +12,18 @@ export const NewsArticle = ({
   description,
   author,
   publishedAt,
+  url,
+  source,
 }) => {
   return (
     <StyledCard>
-      <CardActionArea>
+      <CardActionArea
+        component="a"
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
         {image && (
           <CardMedia
             component="img"
@@ -39,6 +42,9 @@ export const NewsArticle = ({
         </CardContent>
       </CardActionArea>
       <Box p={2}>
+        <Typography variant="caption" color="textSecondary" display="block">
+          {source}
+        </Typography>
         <Typography variant="caption" color="textSecondary" display="block">
           {author}
         </Typography>
