@@ -13,7 +13,7 @@ import {
   ControlsBox,
   SearchBox,
   StyledInputBase,
-} from "./NewsHeader.styles";
+} from "../styles/NewsHeader.styles";
 
 export const NewsHeader = ({ onSearchChange, category, onCategoryChange }) => (
   <HeaderBar position="sticky" elevation={0}>

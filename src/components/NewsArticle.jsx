@@ -4,7 +4,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
-import { ModernCard, MetaBox } from "./NewsArticle.styles";
+import { ModernCard, MetaBox } from "../styles/NewsArticle.styles";
 
 export const NewsArticle = ({
   image,

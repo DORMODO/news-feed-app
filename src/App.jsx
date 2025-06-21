@@ -6,7 +6,7 @@ import debounce from "lodash/debounce";
 
 import { NewsFeed, NewsHeader } from "./components";
 import { useLoadData } from "./hooks/useLoadData";
-import { Footer} from "./App.styles";
+import { Footer} from "./styles/App.styles";
 
 function App() {
   const [articles, setArticles] = useState([]);
