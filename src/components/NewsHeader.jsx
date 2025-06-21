@@ -1,88 +1,64 @@
-import { AppBar, Select, Toolbar, Typography, MenuItem } from "@mui/material";
-import InputBase from "@mui/material/InputBase";
+import {
+  Typography,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { styled } from "@mui/material/styles";
+import NewspaperIcon from "@mui/icons-material/Newspaper";
 
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: theme.palette.common.white,
-  "&:hover": {
-    backgroundColor: theme.palette.common.white,
-  },
-  marginLeft: "auto",
-  width: 200,
-}));
+import {
+  HeaderBar,
+  FlexToolbar,
+  LogoBox,
+  ControlsBox,
+  SearchBox,
+  StyledInputBase,
+} from "./NewsHeader.styles";
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: theme.palette.text.primary,
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 5),
-    transition: theme.transitions.create("width"),
-    width: "100%",
-  },
-}));
-
-const StyledSelect = styled(Select)(({ theme }) => ({
-  color: theme.palette.action,
-  backgroundColor: theme.palette.common.white,
-  "&:before": {
-    borderColor: theme.palette.action,
-  },
-  "&:after": {
-    borderColor: theme.palette.action,
-  },
-  "& .MuiSelect-icon": {
-    color: theme.palette.action,
-  },
-  margin: theme.spacing(2),
-  width: 200,
-  height: 40,
-}));
-
-const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
-  color: theme.palette.text.primary,
-}));
-
-export const NewsHeader = ({ onSearchChange, category, onCategoryChange }) => {
-  const handleInputChange = (event) => {
-    onSearchChange(`${event.target.value}`);
-  };
-
-  return (
-    <AppBar position="static">
-      <Toolbar>
-        <Typography variant="h6">NewsFeed App</Typography>
-        <StyledSelect value={category} onChange={onCategoryChange}>
-          <StyledMenuItem value="general">General</StyledMenuItem>
-          <StyledMenuItem value="business">Business</StyledMenuItem>
-          <StyledMenuItem value="entertainment">Entertainment</StyledMenuItem>
-          <StyledMenuItem value="health">Health</StyledMenuItem>
-          <StyledMenuItem value="science">Science</StyledMenuItem>
-          <StyledMenuItem value="sports">Sports</StyledMenuItem>
-          <StyledMenuItem value="technology">Technology</StyledMenuItem>
-        </StyledSelect>
-        <Search>
-          <SearchIconWrapper>
-            <SearchIcon color="action" />
-          </SearchIconWrapper>
+export const NewsHeader = ({ onSearchChange, category, onCategoryChange }) => (
+  <HeaderBar position="sticky" elevation={0}>
+    <FlexToolbar>
+      <LogoBox>
+        <NewspaperIcon color="primary" sx={{ fontSize: 36 }} />
+        <Typography
+          variant="h5"
+          fontWeight={800}
+          letterSpacing={1.5}
+          color="primary"
+        >
+          NewsFeed
+        </Typography>
+      </LogoBox>
+      <ControlsBox>
+        <Select
+          value={category}
+          onChange={onCategoryChange}
+          size="small"
+          sx={{
+            minWidth: 140,
+            background: "#f5f5f5",
+            borderRadius: 2,
+            fontWeight: 500,
+            fontSize: 15,
+          }}
+        >
+          <MenuItem value="general">General</MenuItem>
+          <MenuItem value="business">Business</MenuItem>
+          <MenuItem value="entertainment">Entertainment</MenuItem>
+          <MenuItem value="health">Health</MenuItem>
+          <MenuItem value="science">Science</MenuItem>
+          <MenuItem value="sports">Sports</MenuItem>
+          <MenuItem value="technology">Technology</MenuItem>
+        </Select>
+        <SearchBox>
+          <SearchIcon color="action" sx={{ fontSize: 22 }} />
           <StyledInputBase
-            placeholder="Search…"
+            placeholder="Search news…"
             inputProps={{ "aria-label": "search" }}
-            onChange={handleInputChange}
+            onChange={(e) => onSearchChange(e.target.value)}
           />
-        </Search>
-      </Toolbar>
-    </AppBar>
-  );
-};
+        </SearchBox>
+      </ControlsBox>
+    </FlexToolbar>
+  </HeaderBar>
+);

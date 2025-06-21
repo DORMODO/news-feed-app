@@ -17,9 +17,6 @@ export const useLoadData = async (
   url.searchParams.append("apiKey", apiKey);
 
   const response = await fetch(url.toString());
-
-  console.log(url.toString())
-
   const data = await response.json();
 
   if (data.status === "error") {

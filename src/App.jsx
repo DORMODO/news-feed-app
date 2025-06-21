@@ -1,18 +1,12 @@
 import { useEffect, useState } from "react";
-import { Alert, Button, Container, styled, Typography } from "@mui/material";
+import { Alert, Button, Container, Typography } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import debounce from "lodash/debounce";
 
 import { NewsFeed, NewsHeader } from "./components";
 import { useLoadData } from "./hooks/useLoadData";
-
-const Footer = styled("div")(({ theme }) => ({
-  margin: theme.spacing(2, 0),
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-}));
+import { Footer} from "./App.styles";
 
 function App() {
   const [articles, setArticles] = useState([]);
